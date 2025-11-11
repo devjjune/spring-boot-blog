@@ -1,6 +1,6 @@
-package org.example.repository;
+package springbootblog.repository;
 
-import org.example.domain.Article;
+import springbootblog.domain.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BlogRepository extends JpaRepository<Article, Long> {
