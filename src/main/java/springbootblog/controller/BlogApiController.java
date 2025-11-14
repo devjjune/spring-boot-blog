@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import springbootblog.domain.Article;
 import springbootblog.domain.dto.AddArticleRequest;
 import springbootblog.domain.dto.ArticleResponse;
+import springbootblog.domain.dto.UpdateArticleRequest;
 import springbootblog.service.BlogService;
 
 import java.util.List;
@@ -54,4 +55,11 @@ public class BlogApiController {
                 .build();
     }
 
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest request) {
+        Article updatedArticle = blogService.update(id, request);
+
+        return ResponseEntity.ok()
+                .body(updatedArticle);
+    }
 }
