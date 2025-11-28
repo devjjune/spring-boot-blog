@@ -1,9 +1,13 @@
 package springbootblog.domain.dto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import springbootblog.domain.Article;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@Getter
 public class ArticleViewResponse {
     private Long id;
     private String title;
