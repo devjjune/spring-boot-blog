@@ -16,3 +16,7 @@ spring:
   h2:
     console:
       enabled: true
+
+  jwt:
+    issuer: hjy648012@naver.com
+    secret_key: study-spring
