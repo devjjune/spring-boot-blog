@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import springbootblog.domain.Article;
-import springbootblog.domain.dto.ArticleListViewResponse;
-import springbootblog.domain.dto.ArticleViewResponse;
+import springbootblog.dto.ArticleListViewResponse;
+import springbootblog.dto.ArticleViewResponse;
 import springbootblog.service.BlogService;
 
 import java.util.List;

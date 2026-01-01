@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import springbootblog.domain.User;
-import springbootblog.domain.dto.AddUserRequest;
+import springbootblog.dto.AddUserRequest;
 import springbootblog.repository.UserRepository;
 
 @RequiredArgsConstructor

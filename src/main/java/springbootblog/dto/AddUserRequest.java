@@ -1,4 +1,4 @@
-package springbootblog.domain.dto;
+package springbootblog.dto;
 
 import lombok.Getter;
 import lombok.Setter;

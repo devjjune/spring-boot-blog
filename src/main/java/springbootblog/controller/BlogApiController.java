@@ -5,9 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springbootblog.domain.Article;
-import springbootblog.domain.dto.AddArticleRequest;
-import springbootblog.domain.dto.ArticleResponse;
-import springbootblog.domain.dto.UpdateArticleRequest;
+import springbootblog.dto.AddArticleRequest;
+import springbootblog.dto.ArticleResponse;
+import springbootblog.dto.UpdateArticleRequest;
 import springbootblog.service.BlogService;
 
 import java.util.List;

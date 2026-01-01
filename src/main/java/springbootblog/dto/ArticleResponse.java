@@ -1,16 +1,15 @@
-package springbootblog.domain.dto;
+package springbootblog.dto;
 
 import lombok.Getter;
 import springbootblog.domain.Article;
 
 @Getter
-public class ArticleListViewResponse {
-    private final Long id;
+public class ArticleResponse {
+
     private final String title;
     private final String content;
 
-    public ArticleListViewResponse(Article article) {
-        this.id = article.getId();
+    public ArticleResponse(Article article) {
         this.title = article.getTitle();
         this.content = article.getContent();
     }

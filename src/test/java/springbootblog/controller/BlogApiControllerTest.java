@@ -21,8 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import springbootblog.domain.Article;
-import springbootblog.domain.dto.AddArticleRequest;
-import springbootblog.domain.dto.UpdateArticleRequest;
+import springbootblog.dto.AddArticleRequest;
+import springbootblog.dto.UpdateArticleRequest;
 import springbootblog.repository.BlogRepository;
 
 import java.util.List;

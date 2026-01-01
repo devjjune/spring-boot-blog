@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import springbootblog.domain.Article;
-import springbootblog.domain.dto.AddArticleRequest;
-import springbootblog.domain.dto.UpdateArticleRequest;
+import springbootblog.dto.AddArticleRequest;
+import springbootblog.dto.UpdateArticleRequest;
 import springbootblog.repository.BlogRepository;
 
 import java.util.List;
