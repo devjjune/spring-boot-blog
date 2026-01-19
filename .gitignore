@@ -11,6 +11,8 @@ build/
 .idea/libraries/
 .idea/vcs.xml
 .idea/gradle.xml
+.idea/misc.xml
+.idea/dbnavigator.xml
 *.iws
 *.iml
 *.ipr
@@ -51,3 +53,5 @@ bin/
 .DS_Store
 
 application.yml
+/img/
+/src/main/generated/

@@ -16,19 +16,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 public class BlogViewController {
+
     private final BlogService blogService;
 
-    @GetMapping("/articles")
-    public String getArticles(Model model) {
-        List<ArticleListViewResponse> articles = blogService.findAll().stream()
-                .map(ArticleListViewResponse::new)
-                .toList();
-        model.addAttribute("articles", articles);
+    @GetMapping("/articles") // 전체 글 목록 조회
+    public String getArticles(Model model) { // 컨트롤러 → 뷰로 데이터를 전달하는 모델 객체
+        List<ArticleListViewResponse> articles = blogService.findAll().stream() // 모든 게시글 엔티티 조회
+                .map(ArticleListViewResponse::new) // 엔티티를 화면 전용 DTO로 변환
+                .toList(); // DTO 리스트 생성
+        model.addAttribute("articles", articles); // 뷰에서 사용할 게시글 목록 데이터 전달
 
-        return "articleList";
+        return "articleList"; // articleList.html 템플릿을 찾아 화면 렌더링
     }
 
-    @GetMapping("/articles/{id}")
+    @GetMapping("/articles/{id}") // 개별 글 조회
     public String getArticle(@PathVariable Long id, Model model) {
         Article article = blogService.findById(id);
         model.addAttribute("article", new ArticleViewResponse(article));

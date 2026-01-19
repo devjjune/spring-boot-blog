@@ -6,32 +6,44 @@ plugins {
 
 group = 'me.jiyoonhwang'
 version = '1.0'
-sourceCompatibility = 21
+sourceCompatibility = '17'
 
-repositories {
+repositories { // 의존성 저장소 (의존성 내려받고 관리)
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // 스프링 데이터 JPA
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    runtimeOnly 'com.h2database:h2' // 인메모리 데이터베이스
-    compileOnly 'org.projectlombok:lombok' // 롬복
+    // === Web / MVC ===
+    implementation 'org.springframework.boot:spring-boot-starter-web' // Spring MVC 기반 웹 애플리케이션 (Controller, Tomcat 내장 등)
+
+    // === View Template ===
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // 서버 사이드 템플릿 엔진 Thymeleaf
+
+    // === Persistence (JPA / DB) ===
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Spring Data JPA (ORM, Repository 추상화)
+    runtimeOnly 'com.h2database:h2' // 로컬 테스트용 인메모리 데이터베이스
+    runtimeOnly 'com.mysql:mysql-connector-j' // RDS(MySQL)용
+
+    // === Security / Authentication ===
+    implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security 기본 설정
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // OAuth2 로그인 (소셜 로그인 등)
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6' // Thymeleaf에서 Spring Security 인증 정보 사용
+    implementation 'io.jsonwebtoken:jjwt:0.9.1' // JWT 생성 및 검증 라이브러리
+
+    // === Utility / Compatibility ===
+    implementation 'javax.xml.bind:jaxb-api:2.3.1' // Java 9+ 환경에서 JAXB 사용을 위한 API. XML 문서와 Java 객체 간 매핑 자동화
+
+    // === Lombok (Compile-time Tool) ===
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    // Getter, Constructor 등 보일러플레이트 코드 제거
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    // 스프링 시큐리티를 사용하기 위한 스타터 추가
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    // 타임리프에서 스프링 시큐리티를 사용하기 위한 의존성 추가
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-    // 스프링 시큐리티를 테스트하기 위한 의존성 추가
-    testImplementation 'org.springframework.security:spring-security-test'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1' // 자바 JWT 라이브러리
-    implementation 'javax.xml.bind:jaxb-api:2.3.1' // XML 문서와 Java 객체 간 매핑 자동화
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // 테스트 코드에서 Lombok 사용
+
+    // === Test ===
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // JUnit, Mockito, AssertJ 등 테스트 통합 스타터
+    testImplementation 'org.springframework.security:spring-security-test' // Security 관련 테스트 지원 (MockUser 등)
 }
 
 test {

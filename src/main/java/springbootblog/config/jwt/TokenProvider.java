@@ -27,24 +27,28 @@ public class TokenProvider {
 
     }
 
-    // 1) JWT 토큰 생성 메서드
+    // [1] JWT 토큰 생성 메서드
     private String makeToken(Date expiry, User user) {
         Date now = new Date();
 
         return Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // 헤더 typ : JWT
-                // 내용 iss : propertise 파일에서 설정한 값
-                .setIssuer(jwtProperties.getIssuer())
-                .setIssuedAt(now) // 내용 iat : 현재 시간
-                .setExpiration(expiry) // 내용 exp : expiry 멤버 변수값
-                .setSubject(user.getEmail()) // 내용 sub : 유저의 이메일
-                .claim("id", user.getId()) // 클레임 id : 유저 ID
-                // 서명 : 비밀값과 함께 해시값을 HS256 방식으로 암호화
+                // --- (1) 헤더(Header): 토큰의 타입 설정
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // 토큰 종류(typ) : JWT
+
+                // --- (2) 내용(Payload): 토큰에 담을 정보 (클레임)
+                .setIssuer(jwtProperties.getIssuer()) // 발행자(iss): 설정 파일에서 가져온 값
+                .setIssuedAt(now)                     // 발행일시(iat): 현재 시간
+                .setExpiration(expiry)                // 만료일시(exp): 전달받은 만료 시간
+                .setSubject(user.getEmail())          // 토큰 제목(sub): 사용자의 이메일
+                .claim("id", user.getId())         // 비공개 클레임: 유저의 DB 고유 ID 저장
+
+                // --- (3) 서명(Signature): 토큰의 위변조 방지
+                // 서버만 아는 비밀키(SecretKey)를 사용하여 HS256 알고리즘으로 해싱(암호화)
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-                .compact();
+                .compact(); // 설정한 내용을 바탕으로 최종 토큰 문자열 생성
     }
 
-    // 2) JWT 토큰 유효성 검증 메서드
+    // [2] JWT 토큰 유효성 검증 메서드
     public boolean validToken(String token) {
         try {
             Jwts.parser()
@@ -56,7 +60,7 @@ public class TokenProvider {
         }
     }
 
-    // 3) 토큰 기반으로 인증 정보를 가져오는 메서드
+    // [3] 토큰 기반으로 인증 정보를 가져오는 메서드
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
         Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
@@ -64,7 +68,7 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities), token, authorities);
     }
 
-    // 4) 토큰 기반으로 유저 ID를 가져오는 메서드
+    // [4] 토큰 기반으로 유저 ID를 가져오는 메서드
     public Long getUserId(String token) {
         Claims claims = getClaims(token);
         return claims.get("id", Long.class);

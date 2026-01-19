@@ -18,7 +18,7 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User user = super.loadUser(userRequest);
+        OAuth2User user = super.loadUser(userRequest); // 외부 서버(리소스 서버)에서 유저 정보 불러옴
         saveOrUpdate(user);
 
         return user;
@@ -30,6 +30,7 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         String email = (String) attributes.get("email");
         String name = (String) attributes.get("name");
 
+        // email로 유저 조회 -> 유저가 있으면 수정(update), 없으면 생성(builder)
         User user = userRepository.findByEmail(email)
                 .map(entity -> entity.update(name))
                 .orElse(User.builder()

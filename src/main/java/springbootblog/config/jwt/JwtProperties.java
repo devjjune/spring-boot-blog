@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Getter
 @Component
-@ConfigurationProperties("jwt")
+@ConfigurationProperties("jwt") // 자바 코드와 설정 파일을 연결
 public class JwtProperties {
     private String issuer;
     private String secretKey;
