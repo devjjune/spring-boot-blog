@@ -10,7 +10,7 @@
 
 <br>
 
-## 📌 학습의 3가지 핵심 축
+## 🎯 학습의 3가지 핵심 축
 학습한 내용은 크게 3가지의 축으로 나눌 수 있다.
 1. **RESTful API 설계:** 계층형 아키텍처를 기반으로 한 게시판 CRUD 구현
 2. **보안 및 인증:** Spring Security를 활용한 JWT / OAuth2 인증 구조 이해
@@ -101,3 +101,18 @@ Client
 - [[Elastic Beanstalk 배포 후 502 오류 원인과 해결]](https://velog.io/@hjy648012/AWS-Elastic-Beanstalk-%EB%B0%B0%ED%8F%AC-%ED%9B%84-502-%EC%98%A4%EB%A5%98-%EC%9B%90%EC%9D%B8%EA%B3%BC-%ED%95%B4%EA%B2%B0)
 
 <br>
+
+## 🔧 프로젝트의 개선점 및 확장성
+- 입력값 검증 및 예외 처리 로직 보완
+- 서비스 및 컨트롤러 계층의 예외 테스트 케이스 보완
+- 댓글, 태그 등 블로그 도메인 확장 가능 구조
+
+<br>
+
+## 📚 향후 학습 계획
+- Spring Security 기반 인증/인가 구조 심화 학습
+- 테스트 코드 작성 역량 강화
+- GitHub Actions를 활용한 CI/CD 도입
+
+<br>
+
