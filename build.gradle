@@ -1,12 +1,17 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.5'
-    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.springframework.boot' version "4.0.2"
+    id 'io.spring.dependency-management' version "1.1.7"
 }
 
 group = 'me.jiyoonhwang'
 version = '1.0'
-sourceCompatibility = '17'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
 
 repositories { // 의존성 저장소 (의존성 내려받고 관리)
     mavenCentral()
