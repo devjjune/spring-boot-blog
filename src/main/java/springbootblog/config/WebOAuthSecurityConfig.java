@@ -11,15 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import springbootblog.config.jwt.TokenProvider;
 import springbootblog.config.oauth.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import springbootblog.config.oauth.OAuth2SuccessHandler;
 import springbootblog.config.oauth.OAuth2UserCustomService;
 import springbootblog.repository.RefreshTokenRepository;
 import springbootblog.service.UserService;
-
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @RequiredArgsConstructor
 @Configuration
@@ -31,13 +29,13 @@ public class WebOAuthSecurityConfig {
     private final UserService userService;
 
     // === [1] 특정 경로에서는 스프링 시큐리티 기능 비활성화 (보안 검사 필요 없는 정적 파일, DB 콘솔 등) ===
+
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
-                .requestMatchers(toH2Console())
+                .requestMatchers("/h2-console/**")
                 .requestMatchers("/img/**", "/css/**", "/js/**");
     }
-
     // === [2] 시큐리티 필터 체인 메서드 : 특정 HTTP 요청에 대해 보안 설정 ===
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -60,10 +58,11 @@ public class WebOAuthSecurityConfig {
 
         // 3) URL 접근 권한 설정
         // 토큰 발급(/api/token)은 인증 없이 가능하게, 나머지 API(/api/**)는 토큰 인증 필수
-        http.authorizeRequests()
+        http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/token").permitAll()
                 .requestMatchers("/api/**").authenticated()
-                .anyRequest().permitAll();
+                .anyRequest().permitAll()
+        );
 
         // 4) OAuth2 로그인 상세 설정
         http.oauth2Login(oauth2 -> oauth2
@@ -89,7 +88,7 @@ public class WebOAuthSecurityConfig {
         http.exceptionHandling(exception -> exception
                 .defaultAuthenticationEntryPointFor(
                         new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                        new AntPathRequestMatcher("/api/**")
+                        PathPatternRequestMatcher.withDefaults().matcher("/api/**")
                 )
         );
 
