@@ -4,12 +4,13 @@ import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import springbootblog.domain.User;
-import springbootblog.repository.UserRepository;
+import springbootblog.domain.user.entity.User;
+import springbootblog.global.jwt.JwtProperties;
+import springbootblog.global.jwt.TokenProvider;
+import springbootblog.domain.user.repository.UserRepository;
 
 import java.time.Duration;
 import java.util.Date;

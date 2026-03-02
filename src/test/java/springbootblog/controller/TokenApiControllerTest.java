@@ -13,12 +13,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import springbootblog.config.jwt.JwtFactory;
-import springbootblog.config.jwt.JwtProperties;
-import springbootblog.domain.RefreshToken;
-import springbootblog.domain.User;
-import springbootblog.dto.CreateAccessTokenRequest;
-import springbootblog.repository.RefreshTokenRepository;
-import springbootblog.repository.UserRepository;
+import springbootblog.global.jwt.JwtProperties;
+import springbootblog.domain.auth.entity.RefreshToken;
+import springbootblog.domain.user.entity.User;
+import springbootblog.domain.auth.dto.CreateAccessTokenRequest;
+import springbootblog.domain.auth.repository.RefreshTokenRepository;
+import springbootblog.domain.user.repository.UserRepository;
 
 import java.util.Map;
 

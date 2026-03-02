@@ -24,12 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import springbootblog.domain.Article;
-import springbootblog.domain.User;
-import springbootblog.dto.AddArticleRequest;
-import springbootblog.dto.UpdateArticleRequest;
-import springbootblog.repository.BlogRepository;
-import springbootblog.repository.UserRepository;
+import springbootblog.domain.article.entity.Article;
+import springbootblog.domain.user.entity.User;
+import springbootblog.domain.article.dto.AddArticleRequest;
+import springbootblog.domain.article.dto.UpdateArticleRequest;
+import springbootblog.domain.article.repository.BlogRepository;
+import springbootblog.domain.user.repository.UserRepository;
 
 import java.security.Principal;
 import java.util.List;
