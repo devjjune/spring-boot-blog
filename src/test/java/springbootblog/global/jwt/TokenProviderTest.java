@@ -1,4 +1,4 @@
-package springbootblog.config.jwt;
+package springbootblog.global.jwt;
 
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.DisplayName;
@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import springbootblog.domain.user.entity.User;
-import springbootblog.global.jwt.JwtProperties;
-import springbootblog.global.jwt.TokenProvider;
 import springbootblog.domain.user.repository.UserRepository;
 
 import java.time.Duration;

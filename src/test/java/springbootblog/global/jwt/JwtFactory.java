@@ -1,11 +1,10 @@
-package springbootblog.config.jwt;
+package springbootblog.global.jwt;
 
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Builder;
 import lombok.Getter;
-import springbootblog.global.jwt.JwtProperties;
 
 import java.time.Duration;
 import java.util.Date;

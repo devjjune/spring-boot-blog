@@ -1,4 +1,4 @@
-package springbootblog.controller;
+package springbootblog.domain.article.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

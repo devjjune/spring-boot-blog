@@ -1,4 +1,4 @@
-package springbootblog.controller;
+package springbootblog.domain.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import springbootblog.config.jwt.JwtFactory;
+import springbootblog.global.jwt.JwtFactory;
 import springbootblog.global.jwt.JwtProperties;
 import springbootblog.domain.auth.entity.RefreshToken;
 import springbootblog.domain.user.entity.User;
