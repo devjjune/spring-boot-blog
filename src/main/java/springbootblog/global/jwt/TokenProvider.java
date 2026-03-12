@@ -1,9 +1,9 @@
 package springbootblog.global.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,6 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import springbootblog.domain.user.entity.User;
 
+import javax.crypto.SecretKey;
+import java.security.Key;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Date;
@@ -31,31 +33,37 @@ public class TokenProvider {
     private String makeToken(Date expiry, User user) {
         Date now = new Date();
 
+        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecretKey());
+        Key key = Keys.hmacShaKeyFor(keyBytes);
+
         return Jwts.builder()
-                // --- (1) 헤더(Header): 토큰의 타입 설정
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // 토큰 종류(typ) : JWT
-
-                // --- (2) 내용(Payload): 토큰에 담을 정보 (클레임)
-                .setIssuer(jwtProperties.getIssuer()) // 발행자(iss): 설정 파일에서 가져온 값
-                .setIssuedAt(now)                     // 발행일시(iat): 현재 시간
-                .setExpiration(expiry)                // 만료일시(exp): 전달받은 만료 시간
-                .setSubject(user.getEmail())          // 토큰 제목(sub): 사용자의 이메일
-                .claim("id", user.getId())         // 비공개 클레임: 유저의 DB 고유 ID 저장
-
-                // --- (3) 서명(Signature): 토큰의 위변조 방지
-                // 서버만 아는 비밀키(SecretKey)를 사용하여 HS256 알고리즘으로 해싱(암호화)
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .header()
+                    .add("typ", "JWT")
+                .and()
+                .issuer(jwtProperties.getIssuer())
+                .issuedAt(now)
+                .expiration(expiry)
+                .subject(user.getEmail()) // 토큰 제목(sub): 사용자의 이메일
+                .claim("id", user.getId()) // 비공개 클레임: 유저의 DB 고유 ID 저장
+                .signWith(key) // 서명(Signature): 토큰의 위변조 방지
                 .compact(); // 설정한 내용을 바탕으로 최종 토큰 문자열 생성
     }
 
     // [2] JWT 토큰 유효성 검증 메서드
     public boolean validToken(String token) {
         try {
+            // 1. 검증에 사용할 SecretKey 생성
+            SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
+
+            // 2. 파서 빌드 및 토큰 검증
             Jwts.parser()
-                    .setSigningKey(jwtProperties.getSecretKey()) // 비밀값으로 복호화
-                    .parseClaimsJws(token);
+                    .verifyWith(key)   // [변경] setSigningKey 대신 사용
+                    .build()            // [필수] 파서 객체 생성
+                    .parseSignedClaims(token); // [변경] parseClaimsJws 대신 권장
+
             return true;
-        } catch (Exception e) { // 복호화 과정에서 에러가 나면 유효하지 않은 토큰
+        } catch (Exception e) {
+            // 서명 위조, 만료 등 모든 예외 상황에서 false 반환
             return false;
         }
     }
@@ -75,9 +83,12 @@ public class TokenProvider {
     }
 
     private Claims getClaims(String token) {
-        return Jwts.parser() // 클레임 조회
-                .setSigningKey(jwtProperties.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody();
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
+
+        return Jwts.parser()
+                .verifyWith(key) // setSigningKey 대신 verifyWith 사용
+                .build()         // 빌드 호출 필수
+                .parseSignedClaims(token) // parseClaimsJws 대신 parseSignedClaims 추천
+                .getPayload();   // getBody() 대신 getPayload() 사용
     }
 }
