@@ -1,6 +1,6 @@
 package springbootblog.domain.article.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,7 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,18 +31,25 @@ import springbootblog.domain.article.dto.AddArticleRequest;
 import springbootblog.domain.article.dto.UpdateArticleRequest;
 import springbootblog.domain.article.repository.BlogRepository;
 import springbootblog.domain.user.repository.UserRepository;
+import tools.jackson.databind.ObjectMapper;
 
 import java.security.Principal;
 import java.util.List;
 
 
 @SpringBootTest // 테스트용 애플리케이션 환경 구성
-@AutoConfigureMockMvc // MockMvc 생성 및 자동 구성
+//@AutoConfigureMockMvc // MockMvc 생성 및 자동 구성
+@EnableAutoConfiguration(excludeName = {
+        "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration",
+        "org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration",
+        "org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration"
+})
 class BlogApiControllerTest {
     // 실제 서버를 띄우지 않고도 HTTP 요청을 흉내 내어 컨트롤러 로직을 검증하는 테스트 클래스
 
-    @Autowired
-    protected MockMvc mockMvc; // 실제 HTTP 요청을 흉내 내는 객체
+    //@Autowired
+    //protected MockMvc mockMvc; // 실제 HTTP 요청을 흉내 내는 객체
+    private MockMvc mockMvc;
 
     @Autowired
     protected ObjectMapper objectMapper; // JSON 직렬화/역직렬화를 위한 클래스 (요청 본문 생성 시 필수)

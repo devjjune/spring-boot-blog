@@ -1,6 +1,10 @@
 package springbootblog.global.jwt;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import springbootblog.domain.user.entity.User;
 import springbootblog.domain.user.repository.UserRepository;
 
+import javax.crypto.SecretKey;
 import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
@@ -36,12 +41,13 @@ class TokenProviderTest {
         // when
         String token = tokenProvider.generateToken(testUser, Duration.ofDays(14));
         // then
-        Long userId = Jwts.parser()
-                .setSigningKey(jwtProperties.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody()
-                .get("id", Long.class);
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
+        Jws<Claims> jws  = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token);
 
+        Long userId = jws.getPayload().get("id", Long.class);
         assertThat(userId).isEqualTo(testUser.getId());
     }
 
