@@ -19,7 +19,7 @@ repositories { // 의존성 저장소 (의존성 내려받고 관리)
 
 dependencies {
     // === Web / MVC ===
-    implementation 'org.springframework.boot:spring-boot-starter-web' // Spring MVC 기반 웹 애플리케이션 (Controller, Tomcat 내장 등)
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc' // Spring MVC 기반 웹 애플리케이션 (Controller, Tomcat 내장 등)
 
     // === View Template ===
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // 서버 사이드 템플릿 엔진 Thymeleaf
@@ -31,9 +31,9 @@ dependencies {
 
     // === Security / Authentication ===
     implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security 기본 설정
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // OAuth2 로그인 (소셜 로그인 등)
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client' // OAuth2 로그인 (소셜 로그인 등)
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6' // Thymeleaf에서 Spring Security 인증 정보 사용
-    implementation 'io.jsonwebtoken:jjwt:0.9.1' // JWT 생성 및 검증 라이브러리
+    implementation 'io.jsonwebtoken:jjwt:0.13.0' // JWT 생성 및 검증 라이브러리
 
     // === Utility / Compatibility ===
     implementation 'javax.xml.bind:jaxb-api:2.3.1' // Java 9+ 환경에서 JAXB 사용을 위한 API. XML 문서와 Java 객체 간 매핑 자동화
@@ -47,8 +47,9 @@ dependencies {
     // 테스트 코드에서 Lombok 사용
 
     // === Test ===
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // JUnit, Mockito, AssertJ 등 테스트 통합 스타터
-    testImplementation 'org.springframework.security:spring-security-test' // Security 관련 테스트 지원 (MockUser 등)
+    testImplementation 'org.springframework.security:spring-boot-starter-security-test' // Security 관련 테스트 지원 (MockUser 등)
 }
 
 test {
