@@ -1,0 +1,48 @@
+# 1. 워크플로우 이름
+name: Java CI with Gradle
+
+# 2. 워크플로우 Trigger 조건
+on:
+  push:
+    branches: [ "main", "develop" ] # 메인이나 개발 브랜치에 푸시될 때
+  pull_request:
+    branches: [ "main", "develop" ] # PR이 올라왔을 때
+
+# 3. 무엇을 할 것인가? (Jobs)
+jobs:
+  build:
+    # 실행 환경 지정 (최신 우분투 리눅스)
+    runs-on: ubuntu-latest
+
+    # 실행 스텝 지정
+    steps:
+      # (Step 1) 소스 코드 가져오기
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # (Step 2) 자바 25 설치
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin' # 이클립스 테무린 배포판 사용
+          cache: gradle           # 빌드 속도를 위해 의존성 캐싱
+
+      # (Step 3) Gradle 실행 권한 부여
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # (Step 4) 빌드 및 테스트 실행
+      - name: Build and Test with Gradle
+        run: ./gradlew clean build
+
+      # (Step 5) 테스트 결과 저장 (선택 사항)
+      - name: Upload Build Artifacts
+        if: always() # 빌드가 실패해도 테스트 리포트는 남김
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            build/test-results/test
+            build/reports/tests/test
+          if-no-files-found: ignore
