@@ -35,6 +35,12 @@ jobs:
       # (Step 4) 빌드 및 테스트 실행
       - name: Build and Test with Gradle
         run: ./gradlew clean build
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       # (Step 5) 테스트 결과 저장 (선택 사항)
       - name: Upload Build Artifacts

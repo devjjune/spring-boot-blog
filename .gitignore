@@ -52,6 +52,5 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-application.yml
 /img/
 /src/main/generated/
