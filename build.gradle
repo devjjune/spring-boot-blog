@@ -15,6 +15,8 @@ java {
 
 repositories { // 의존성 저장소 (의존성 내려받고 관리)
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
