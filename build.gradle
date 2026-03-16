@@ -15,8 +15,6 @@ java {
 
 repositories { // 의존성 저장소 (의존성 내려받고 관리)
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-    maven { url 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
@@ -51,7 +49,7 @@ dependencies {
     // === Test ===
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // JUnit, Mockito, AssertJ 등 테스트 통합 스타터
-    testImplementation 'org.springframework.security:spring-boot-starter-security-test:4.0.2' // Security 관련 테스트 지원 (MockUser 등)
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-test' // Security 관련 테스트 지원 (MockUser 등)
 }
 
 test {
