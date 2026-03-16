@@ -51,7 +51,7 @@ dependencies {
     // === Test ===
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // JUnit, Mockito, AssertJ 등 테스트 통합 스타터
-    testImplementation 'org.springframework.security:spring-boot-starter-security-test:7.0.3' // Security 관련 테스트 지원 (MockUser 등)
+    testImplementation 'org.springframework.security:spring-boot-starter-security-test:4.0.2' // Security 관련 테스트 지원 (MockUser 등)
 }
 
 test {
