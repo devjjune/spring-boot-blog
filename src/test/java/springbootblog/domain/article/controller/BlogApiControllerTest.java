@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -33,7 +34,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.security.Principal;
 import java.util.List;
 
-
+@ActiveProfiles("test")
 @SpringBootTest // 테스트용 애플리케이션 환경 구성
 @AutoConfigureMockMvc // MockMvc 생성 및 자동 구성
 class BlogApiControllerTest {

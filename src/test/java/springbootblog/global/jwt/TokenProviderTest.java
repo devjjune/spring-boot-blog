@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.ActiveProfiles;
 import springbootblog.domain.user.entity.User;
 import springbootblog.domain.user.repository.UserRepository;
 
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
 class TokenProviderTest {
     @Autowired
@@ -33,6 +35,7 @@ class TokenProviderTest {
     @DisplayName("generateToken(): 유저 정보와 만료 기간을 전달해 토큰을 만들 수 있다.")
     @Test
     void generateToken() {
+        System.out.println("secret = [" + jwtProperties.getSecretKey() + "]");
         // given
         User testUser = userRepository.save(User.builder()
                 .email("user@gmail.com")

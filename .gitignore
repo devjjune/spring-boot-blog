@@ -54,3 +54,4 @@ bin/
 
 /img/
 /src/main/generated/
+application-test.yml
