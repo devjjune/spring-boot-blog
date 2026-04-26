@@ -3,9 +3,12 @@ package springbootblog.global.jwt;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.security.Key;
 import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
@@ -33,14 +36,18 @@ public class JwtFactory {
     }
 
     public String createToken(JwtProperties jwtProperties) {
-        return Jwts.builder()
-                .setSubject(subject)
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setIssuer(jwtProperties.getIssuer())
-                .setIssuedAt(issuedAt)
-                .setExpiration(expiration)
-                .addClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecretKey());
+        Key key = Keys.hmacShaKeyFor(keyBytes);
+
+        return Jwts.builder().subject(subject)
+                .header()
+                .add("typ", "JWT")
+                .and()
+                .issuer(jwtProperties.getIssuer())
+                .issuedAt(issuedAt)
+                .expiration(expiration).
+                claims(claims)
+                .signWith(key)
                 .compact();
     }
 }
